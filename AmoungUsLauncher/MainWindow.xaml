@@ -9,7 +9,7 @@
         Loaded="Window_Loaded"
         Title="Skeld.net Among Us Launcher" Height="456" Width="806" ResizeMode="NoResize">
     <Window.Resources>
-        <FontFamily x:Key="AmoungUs">AmongUs.ttf</FontFamily>
+        <FontFamily x:Key="AmongUs">/AmoungUsLauncher;component/#In your face, Joffrey!</FontFamily>
     </Window.Resources>
     <Grid>
         <Grid Height="366" VerticalAlignment="Top" Margin="0,22,0,0" HorizontalAlignment="Left" Width="792">
@@ -29,23 +29,36 @@
                     </Style>
                 </ProgressBar.Style>
             </ProgressBar>
-            <TextBlock Name="LoaderText" Foreground="White" HorizontalAlignment="Left" Margin="15,12,0,0" TextWrapping="Wrap" Text="Press Launch to Begin" VerticalAlignment="Top" FontFamily="/AmoungUsLauncher;component/#In your face, Joffrey!" FontSize="24" Width="646"/>
+            <TextBlock Name="LoaderText" Foreground="White" HorizontalAlignment="Left" Margin="15,12,0,0" TextWrapping="Wrap" Text="Press Launch to Begin" VerticalAlignment="Top" FontFamily="{StaticResource AmongUs}" FontSize="24" Width="646"/>
         </Grid>
         <Grid HorizontalAlignment="Left" Height="53" Margin="669,366,0,0" VerticalAlignment="Top" Width="123" Background="Black">
-            <Button Name="PlayBtn" Click="PlayBtn_Click" Content="Launch" HorizontalAlignment="Left" Margin="4,4,2,2" VerticalAlignment="Top" Height="41" Width="111">
+            <Button Name="PlayBtn" Click="PlayBtn_Click" Content="Set Path" HorizontalAlignment="Left" Margin="4,4,2,2" VerticalAlignment="Top" Height="41" Width="111" FontFamily="/AmoungUsLauncher;component/#In your face, Joffrey!">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="4" BorderBrush="White" BorderThickness="4">
-                                        <TextBlock FontSize="24" FontFamily="{StaticResource AmoungUs}" HorizontalAlignment="Center" Foreground="White" Text="{TemplateBinding Content}" Margin="{TemplateBinding Margin}" ></TextBlock>
+                                        <TextBlock FontSize="24" FontFamily="{StaticResource AmongUs}" HorizontalAlignment="Center" Foreground="White" Text="{TemplateBinding Content}" Margin="{TemplateBinding Margin}" ></TextBlock>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
                         <Setter Property="Background" Value="Black"/>
                         <Setter Property="Foreground" Value="White"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border CornerRadius="4" BorderBrush="Green" BorderThickness="4">
+                                                <TextBlock FontSize="24" FontFamily="{StaticResource AmongUs}" HorizontalAlignment="Center" Foreground="White" Text="{TemplateBinding Content}" Margin="{TemplateBinding Margin}" ></TextBlock>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
                 </Button.Style>
             </Button>

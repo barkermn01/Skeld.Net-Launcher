@@ -46,26 +46,56 @@ namespace AmoungUsLauncher
             }
         }
 
+        private void setPath()
+        {
+            GameSelector gs = new GameSelector();
+            gs.GamePath = this.GamePath;
+            gs.ShowDialog();
+            this.GamePath = gs.GamePath;
+            if (GamePath == "")
+            {
+                LoaderText.Text = "Please set Game Path";
+                PlayBtn.Content = "Set Path";
+            }
+            else
+            {
+                LoaderText.Text = "Press Launch to Begin";
+                PlayBtn.Content = "Launch";
+                SaveGamePath();
+            }
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (GamePath == "")
             {
-                PlayBtn.IsEnabled = false;
                 LoaderText.Text = "Please set Game Path";
+                PlayBtn.Content = "Set Path";
+            }
+            else
+            {
+                PlayBtn.Content = "Launch";
             }
         }
 
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
-            string AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string AppDataLocalLow = System.IO.Path.GetFullPath(AppDataPath + "\\..\\LocalLow\\");
-            try
+            if (this.GamePath == "")
             {
-                File.Delete(AppDataLocalLow + "\\Innersloth\\Among Us\\regionInfo.dat");
-                File.Copy("./regionInfo.dat", AppDataLocalLow + "\\Innersloth\\Among Us\\regionInfo.dat");
-                Process.Start(this.GamePath);
+                setPath();
             }
-            catch (Exception){}
+            else
+            {
+                string AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                string AppDataLocalLow = System.IO.Path.GetFullPath(AppDataPath + "\\..\\LocalLow\\");
+                try
+                {
+                    File.Delete(AppDataLocalLow + "\\Innersloth\\Among Us\\regionInfo.dat");
+                    File.Copy("./regionInfo.dat", AppDataLocalLow + "\\Innersloth\\Among Us\\regionInfo.dat");
+                    Process.Start(this.GamePath);
+                }
+                catch (Exception) { }
+            }
         }
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
@@ -75,21 +105,7 @@ namespace AmoungUsLauncher
 
         private void MenuItem_SetPath_Click(object sender, RoutedEventArgs e)
         {
-            GameSelector gs = new GameSelector();
-            gs.GamePath = this.GamePath;
-            gs.ShowDialog();
-            this.GamePath = gs.GamePath;
-            if (GamePath == "")
-            {
-                PlayBtn.IsEnabled = false;
-                LoaderText.Text = "Please set Game Path";
-            }
-            else
-            {
-                PlayBtn.IsEnabled = true;
-                LoaderText.Text = "Press Launch to Begin";
-                SaveGamePath();
-            }
+            setPath();
         }
     }
 }

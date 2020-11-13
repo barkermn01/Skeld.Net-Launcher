@@ -50,6 +50,10 @@ namespace AmoungUsLauncher
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Path.Text = this.GamePath;
+            Application curApp = Application.Current;
+            Window mainWindow = curApp.MainWindow;
+            this.Left = mainWindow.Left + (mainWindow.Width - this.ActualWidth) / 2;
+            this.Top = mainWindow.Top + (mainWindow.Height - this.ActualHeight) / 2;
         }
 
         private void Path_PreviewMouseDown(object sender, MouseButtonEventArgs e)
