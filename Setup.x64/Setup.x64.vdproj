@@ -2429,7 +2429,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Skeld.Net Launcher 64 Bit"
         "ProductCode" = "8:{15AB0261-DE5F-4E83-9DC7-7AD44801CEB6}"
-        "PackageCode" = "8:{FFF9EF35-C4A7-4C6B-8239-E87B1B296549}"
+        "PackageCode" = "8:{47CB21ED-E206-4F75-94F3-473CF56337A0}"
         "UpgradeCode" = "8:{0ABB6619-14A5-4DFC-A452-1AE8C14ADA0B}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -2560,7 +2560,7 @@
             "Target" = "8:_2538C5C1F77F46C7830BAC3200CC0BCC"
             "Folder" = "8:_F9114AA934EF4B8A86D866DC9523EAE7"
             "WorkingFolder" = "8:_CB23D0BFEA554CED94C1CB8F64058400"
-            "Icon" = "8:"
+            "Icon" = "8:_A9114DE2832649A38943EE3EDD4300DD"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9A1EEF51EBE04CF78A03AEE4FDC81D6A"
@@ -2574,7 +2574,7 @@
             "Target" = "8:_2538C5C1F77F46C7830BAC3200CC0BCC"
             "Folder" = "8:_AA1B671ED94747F69CCF5FC8643B6807"
             "WorkingFolder" = "8:_CB23D0BFEA554CED94C1CB8F64058400"
-            "Icon" = "8:"
+            "Icon" = "8:_A9114DE2832649A38943EE3EDD4300DD"
             "Feature" = "8:"
             }
         }

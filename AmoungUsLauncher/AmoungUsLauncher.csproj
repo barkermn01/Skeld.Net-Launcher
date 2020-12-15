@@ -160,7 +160,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="AmoungUsLauncher_TemporaryKey.pfx" />
     <None Include="regionInfo.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

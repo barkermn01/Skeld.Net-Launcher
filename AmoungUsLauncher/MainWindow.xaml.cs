@@ -36,14 +36,20 @@ namespace AmoungUsLauncher
 
         private void SaveGamePath()
         {
-            System.IO.File.WriteAllText("./GameData.txt", GamePath + ";" + (enableCrewlink?"1":"0"));
+            string LocalAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string SkeldLauncherDataPath = LocalAppDataPath + @"Skeld Launcher\";
+            if (!Directory.Exists(SkeldLauncherDataPath)) { Directory.CreateDirectory(SkeldLauncherDataPath); }
+            System.IO.File.WriteAllText(SkeldLauncherDataPath+"GameData.txt", GamePath + ";" + (enableCrewlink?"1":"0"));
         }
 
         private string ReadGamePath()
         {
             try
             {
-                string[] data = System.IO.File.ReadAllText("./GameData.txt").Split(';');
+                string LocalAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                string SkeldLauncherDataPath = LocalAppDataPath + @"Skeld Launcher\";
+                if (!Directory.Exists(SkeldLauncherDataPath)) { Directory.CreateDirectory(SkeldLauncherDataPath); }
+                string[] data = System.IO.File.ReadAllText(SkeldLauncherDataPath + "GameData.txt").Split(';');
                 this.enableCrewlink = (data[1] == "1");
                 return data[0];
             }
