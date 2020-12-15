@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,22 +24,28 @@ namespace AmoungUsLauncher
     public partial class MainWindow : Window
     {
         private string GamePath = "";
+        private bool enableCrewlink = false;
+        private Process crewLinkProc;
+
         public MainWindow()
         {
             InitializeComponent();
             GamePath = ReadGamePath();
+            enableCrewLinkCheckMenuItem.IsChecked = enableCrewlink;
         }
 
         private void SaveGamePath()
         {
-            System.IO.File.WriteAllText("./GamePath.txt", GamePath);
+            System.IO.File.WriteAllText("./GameData.txt", GamePath + ";" + (enableCrewlink?"1":"0"));
         }
 
         private string ReadGamePath()
         {
             try
             {
-                return System.IO.File.ReadAllText("./GamePath.txt");
+                string[] data = System.IO.File.ReadAllText("./GameData.txt").Split(';');
+                this.enableCrewlink = (data[1] == "1");
+                return data[0];
             }
             catch (Exception)
             {
@@ -78,6 +85,23 @@ namespace AmoungUsLauncher
             }
         }
 
+        private void MenuItem_EnableCrewlink_Click(object sender, RoutedEventArgs e)
+        {
+            string LocalAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string crewlinkPath = LocalAppDataPath + @"\Programs\crewlink\CrewLink.exe";
+            if (!File.Exists(crewlinkPath))
+            {
+                InstallCrewLink icl = new InstallCrewLink();
+                icl.ShowDialog();
+            }
+            else
+            {
+                this.enableCrewlink = true;
+                enableCrewLinkCheckMenuItem.IsChecked = this.enableCrewlink;
+                this.SaveGamePath();
+            }
+        }
+
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
             if (this.GamePath == "")
@@ -88,13 +112,39 @@ namespace AmoungUsLauncher
             {
                 string AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 string AppDataLocalLow = System.IO.Path.GetFullPath(AppDataPath + "\\..\\LocalLow\\");
-                try
+
+                File.Delete(AppDataLocalLow + "\\Innersloth\\Among Us\\regionInfo.dat");
+                File.Copy("./regionInfo.dat", AppDataLocalLow + "\\Innersloth\\Among Us\\regionInfo.dat");
+                if (this.enableCrewlink && this.crewLinkProc == null)
                 {
-                    File.Delete(AppDataLocalLow + "\\Innersloth\\Among Us\\regionInfo.dat");
-                    File.Copy("./regionInfo.dat", AppDataLocalLow + "\\Innersloth\\Among Us\\regionInfo.dat");
-                    Process.Start(this.GamePath);
+                    string LocalAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                    string crewlinkPath = LocalAppDataPath + @"\Programs\crewlink\CrewLink.exe";
+                    this.crewLinkProc = Process.Start(crewlinkPath);
                 }
-                catch (Exception) { }
+
+                Process AmongUsExe;
+                if (this.GamePath.Contains("steamapps"))
+                {
+                    Process steam = Process.Start(@"steam://run/945360/");
+                    steam.WaitForExit();
+                    Thread.Sleep(2000);
+                    AmongUsExe = Process.GetProcessesByName("Among Us")[0];
+                }
+                else
+                {
+                    AmongUsExe = Process.Start(this.GamePath);
+                }
+
+                this.ShowInTaskbar = false;
+                this.Hide();
+
+                AmongUsExe.WaitForExit();
+                if (this.enableCrewlink && this.crewLinkProc != null)
+                {
+                    this.crewLinkProc.Kill();
+                }
+                this.ShowInTaskbar = true;
+                this.Show();
             }
         }
 
